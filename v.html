@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تطبيق السنتر V27 (Auto-Pilot)</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2c3e50">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* التنسيقات الأصلية كما هي في ملفك */
+        :root {
+            --bg: #f4f7f6;
+            --primary: #2c3e50;
+            --blue: #2980b9;
+            --green: #27ae60;
+            --red: #c0392b;
+            --orange: #f39c12;
+            --purple: #8e44ad;
+        }
+        body { font-family: 'Cairo', sans-serif; background: var(--bg); margin: 0; height: 100vh; display: flex; flex-direction: column; overflow: hidden; user-select: none; }
+        /* ... باقي التنسيقات الخاصة بك ... */
+    </style>
+</head>
+<body>
+
+    <div id="loginOverlay"> ... </div>
+    <div class="app-header"> ... </div>
+    <script>
+        /* الكود البرمجي الأصلي الخاص بك */
+        // ... (دوال renderSets, backupData, restoreData, إلخ) ...
+
+        // تسجيل الـ Service Worker وطلب التخزين الدائم عند تشغيل التطبيق
+        window.addEventListener('load', () => {
+            // تسجيل ملف الـ PWA
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('sw.js')
+                    .then(() => console.log("تم تفعيل نظام العمل بدون إنترنت"))
+                    .catch(err => console.log("خطأ في تسجيل الـ SW:", err));
+            }
+
+            // طلب حفظ البيانات للأبد ومنع المتصفح من مسحها
+            if (navigator.storage && navigator.storage.persist) {
+                navigator.storage.persist().then(granted => {
+                    if (granted) console.log("نظام التخزين الدائم مُفعل");
+                });
+            }
+            
+            // استدعاء دالة التشغيل الأصلية الخاصة بك
+            if(typeof renderSets === 'function') renderSets();
+        });
+    </script>
+</body>
+</html>
